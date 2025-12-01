@@ -56,7 +56,32 @@ npm run build
 npm run test
 ```
 
-### Linting
+For detailed test documentation, see [TESTING.md](TESTING.md).
+
+### Test Coverage
+
+- **56 tests** covering all features
+- Service layer tests (19 tests)
+- Component tests (37 tests)
+  - LoanForm component
+  - LoanList component  
+  - LoanSummary component
+
+### HTML Test Reports
+
+After running tests, view the HTML report:
+```bash
+npx vite preview --outDir html
+```
+
+### Coverage Report
+
+Generate code coverage:
+```bash
+npm run test:coverage
+```
+
+## Linting
 
 ```bash
 npm run lint
