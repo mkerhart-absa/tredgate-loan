@@ -63,7 +63,7 @@ test.describe('Form Validation', () => {
     });
   });
 
-  test('should accept zero interest rate', async ({ page }) => {
+  test('should accept zero interest rate', async () => {
     await test.step('Fill form with zero interest rate', async () => {
       await appPage.loanForm.fillApplicantName('John Doe');
       await appPage.loanForm.fillAmount(50000);
@@ -81,7 +81,7 @@ test.describe('Form Validation', () => {
     });
   });
 
-  test('should accept very small amounts', async ({ page }) => {
+  test('should accept very small amounts', async () => {
     await test.step('Fill form with $1 amount', async () => {
       await appPage.loanForm.fillApplicantName('John Doe');
       await appPage.loanForm.fillAmount(1);
@@ -95,7 +95,7 @@ test.describe('Form Validation', () => {
     });
   });
 
-  test('should accept very large amounts', async ({ page }) => {
+  test('should accept very large amounts', async () => {
     await test.step('Fill form with large amount', async () => {
       await appPage.loanForm.fillApplicantName('John Doe');
       await appPage.loanForm.fillAmount(999999999);
@@ -109,7 +109,7 @@ test.describe('Form Validation', () => {
     });
   });
 
-  test('should trim whitespace from applicant name', async ({ page }) => {
+  test('should trim whitespace from applicant name', async () => {
     await test.step('Fill form with name having leading/trailing spaces', async () => {
       await appPage.loanForm.fillApplicantName('  John Doe  ');
       await appPage.loanForm.fillAmount(50000);
@@ -125,7 +125,7 @@ test.describe('Form Validation', () => {
     });
   });
 
-  test('should validate all required fields are filled', async ({ page }) => {
+  test('should validate all required fields are filled', async () => {
     await test.step('Create a valid loan to verify form works', async () => {
       await appPage.loanForm.fillApplicantName('John Doe');
       await appPage.loanForm.fillAmount(50000);

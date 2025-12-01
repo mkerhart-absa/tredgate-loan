@@ -6,11 +6,17 @@ This document describes the test suite for the Tredgate Loan application. The te
 
 ## Technology Stack
 
+### Unit Testing
 - **Vitest** - Fast unit testing framework
 - **@vue/test-utils** - Official testing utilities for Vue components
 - **jsdom** - Browser environment simulation
 - **@vitest/ui** - Interactive UI for test results
 - **@vitest/coverage-v8** - Code coverage reporting
+
+### E2E Testing
+- **Playwright** - Modern end-to-end testing framework
+- **Page Object Model** - Structured test organization pattern
+- Supports Chromium, Firefox, and WebKit browsers
 
 ## Test Coverage
 
@@ -250,8 +256,8 @@ When adding new features:
 ## Test Statistics
 
 Current test suite:
-- **Total test files**: 4
-- **Total tests**: 56
+- **Total unit test files**: 4
+- **Total unit tests**: 56
 - **Service tests**: 19
 - **Component tests**: 37
   - LoanForm: 10
@@ -259,3 +265,169 @@ Current test suite:
   - LoanSummary: 12
 
 All tests should pass with 0 failures.
+
+## End-to-End (E2E) Testing with Playwright
+
+### Overview
+
+Playwright tests provide comprehensive end-to-end testing of the entire application workflow, simulating real user interactions in a browser environment.
+
+### Test Structure
+
+Playwright tests follow the Page Object Model (POM) pattern:
+
+```
+e2e-tests/
+├── pages/               # Page Object classes
+│   ├── BasePage.ts         # Base class with common methods
+│   ├── AppPage.ts          # Main application page
+│   ├── LoanFormPage.ts     # Loan form component
+│   ├── LoanListPage.ts     # Loan list component
+│   └── LoanSummaryPage.ts  # Loan summary component
+├── helpers/             # Test utilities and helpers
+│   └── testHelpers.ts      # Common functions and test data
+├── texts/               # Centralized text constants
+│   └── texts.ts            # Text values, selectors, and messages
+├── form-validation.spec.ts # Form validation tests
+├── loan-creation.spec.ts   # Loan creation tests
+└── loan-decisions.spec.ts  # Loan decision workflow tests
+```
+
+### Test Coverage
+
+#### Form Validation Tests (`form-validation.spec.ts`)
+- Empty applicant name validation
+- Whitespace-only name validation
+- Zero interest rate acceptance
+- Very small amounts (boundary test)
+- Very large amounts (boundary test)
+- Whitespace trimming
+- Required field validation
+
+#### Loan Creation Tests (`loan-creation.spec.ts`)
+- Application loads correctly
+- Create new loan application successfully
+- Create multiple loan applications
+- Monthly payment calculation for zero interest
+- Boundary value handling ($100k, 60 months)
+
+#### Loan Decision Tests (`loan-decisions.spec.ts`)
+- Manual loan approval
+- Manual loan rejection
+- Auto-approve loans meeting criteria (≤$100k and ≤60 months)
+- Auto-reject loans exceeding amount limit (>$100k)
+- Auto-reject loans exceeding term limit (>60 months)
+- Auto-approve at exact boundary
+- Handle multiple loan decisions
+- Calculate total approved amount correctly
+
+### Running Playwright Tests
+
+#### Run All E2E Tests
+```bash
+npm run test:e2e
+```
+
+#### Run Tests with UI Mode
+```bash
+npm run test:e2e:ui
+```
+
+This opens an interactive UI to watch tests run and explore results.
+
+#### Run Tests in Headed Mode
+```bash
+npm run test:e2e:headed
+```
+
+Shows the browser window while tests run.
+
+#### Debug Tests
+```bash
+npm run test:e2e:debug
+```
+
+Opens Playwright Inspector for step-by-step debugging.
+
+### Playwright Reports
+
+After running tests, view the HTML report:
+```bash
+npx playwright show-report
+```
+
+The report includes:
+- Test execution summary
+- Pass/fail status for each test
+- Screenshots on failures
+- Videos of failed tests
+- Trace files for debugging
+- Execution times
+
+### Page Object Model Best Practices
+
+The tests follow QA engineer best practices:
+
+1. **Clear Structure**: Tests use test.step() for readable test scenarios
+2. **Reusable Components**: Page Objects encapsulate UI interactions
+3. **Atomic Methods**: Small, focused methods for individual actions
+4. **Grouped Actions**: Higher-level methods combining multiple steps
+5. **Custom Assertions**: Expect methods in Page Objects with meaningful messages
+6. **Text Library**: Centralized text constants for maintainability
+7. **No Logic in Tests**: Business logic in Page Objects, not tests
+8. **Unique Locators**: Uses IDs and data-testid attributes where possible
+
+### CI/CD Integration
+
+Playwright tests run in GitHub Actions via manual trigger:
+
+**Workflow**: `.github/workflows/playwright.yml`
+- Trigger: Manual (`workflow_dispatch`)
+- Runs on: Ubuntu latest
+- Browser: Chromium (configurable)
+- Artifacts: Test reports and videos uploaded automatically
+
+To manually trigger the workflow:
+1. Go to Actions tab in GitHub
+2. Select "Playwright Tests" workflow
+3. Click "Run workflow"
+4. Choose browser (default: chromium)
+
+### Troubleshooting E2E Tests
+
+#### Tests fail with browser not found
+```bash
+npx playwright install chromium
+```
+
+#### Tests fail locally but pass in CI
+- Clear test results: `rm -rf test-results playwright-report`
+- Ensure dev server isn't already running on port 5173
+- Check localStorage is cleared between tests
+
+#### Need to update Page Objects after UI changes
+- Locate the affected Page Object file
+- Update selectors if IDs or data-testid attributes changed
+- Update expectations if text or behavior changed
+- Run tests to verify changes
+
+### Test Data
+
+Test data is centralized in `e2e-tests/helpers/testHelpers.ts`:
+- `TestData.approvedLoan` - Should be auto-approved
+- `TestData.rejectedLoanHighAmount` - Rejected for high amount
+- `TestData.rejectedLoanLongTerm` - Rejected for long term
+- `TestData.smallLoan` - Edge case: minimal amount
+- `TestData.zeroInterestLoan` - Edge case: 0% interest
+- `TestData.boundaryLoan` - Boundary: exactly at limits
+
+### E2E Test Statistics
+
+Current E2E test suite:
+- **Total E2E test files**: 3
+- **Total E2E tests**: 20
+- **Form validation tests**: 7
+- **Loan creation tests**: 5
+- **Loan decision tests**: 8
+
+All E2E tests pass successfully.

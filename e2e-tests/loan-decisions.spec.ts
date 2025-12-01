@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { AppPage } from './pages/AppPage';
 import { TEXTS } from './texts/texts';
 import { TestData, formatCurrencyNoDecimals } from './helpers/testHelpers';
@@ -12,7 +12,7 @@ test.describe('Loan Decision Workflows', () => {
     await appPage.setupCleanState();
   });
 
-  test('should approve a loan manually', async ({ page }) => {
+  test('should approve a loan manually', async () => {
     const loanData = TestData.approvedLoan;
 
     await test.step('Create a pending loan', async () => {
@@ -43,7 +43,7 @@ test.describe('Loan Decision Workflows', () => {
     });
   });
 
-  test('should reject a loan manually', async ({ page }) => {
+  test('should reject a loan manually', async () => {
     const loanData = TestData.approvedLoan;
 
     await test.step('Create a pending loan', async () => {
@@ -73,7 +73,7 @@ test.describe('Loan Decision Workflows', () => {
     });
   });
 
-  test('should auto-approve loan meeting criteria (≤$100k and ≤60 months)', async ({ page }) => {
+  test('should auto-approve loan meeting criteria (≤$100k and ≤60 months)', async () => {
     const loanData = TestData.approvedLoan; // $50k, 36 months
 
     await test.step('Create a pending loan', async () => {
@@ -99,7 +99,7 @@ test.describe('Loan Decision Workflows', () => {
     });
   });
 
-  test('should auto-reject loan exceeding amount limit (>$100k)', async ({ page }) => {
+  test('should auto-reject loan exceeding amount limit (>$100k)', async () => {
     const loanData = TestData.rejectedLoanHighAmount; // $150k, 36 months
 
     await test.step('Create a pending loan with high amount', async () => {
@@ -124,7 +124,7 @@ test.describe('Loan Decision Workflows', () => {
     });
   });
 
-  test('should auto-reject loan exceeding term limit (>60 months)', async ({ page }) => {
+  test('should auto-reject loan exceeding term limit (>60 months)', async () => {
     const loanData = TestData.rejectedLoanLongTerm; // $50k, 72 months
 
     await test.step('Create a pending loan with long term', async () => {
@@ -149,7 +149,7 @@ test.describe('Loan Decision Workflows', () => {
     });
   });
 
-  test('should auto-approve loan at exact boundary ($100k, 60 months)', async ({ page }) => {
+  test('should auto-approve loan at exact boundary ($100k, 60 months)', async () => {
     const loanData = TestData.boundaryLoan; // $100k, 60 months
 
     await test.step('Create a pending loan at boundary', async () => {
@@ -175,7 +175,7 @@ test.describe('Loan Decision Workflows', () => {
     });
   });
 
-  test('should handle multiple loan decisions correctly', async ({ page }) => {
+  test('should handle multiple loan decisions correctly', async () => {
     await test.step('Create and approve first loan', async () => {
       const loan1 = TestData.approvedLoan;
       await appPage.loanForm.createLoanApplication(
@@ -221,7 +221,7 @@ test.describe('Loan Decision Workflows', () => {
     });
   });
 
-  test('should calculate total approved amount correctly with multiple approvals', async ({ page }) => {
+  test('should calculate total approved amount correctly with multiple approvals', async () => {
     await test.step('Create and approve first loan', async () => {
       const loan1 = TestData.approvedLoan;
       await appPage.loanForm.createLoanApplication(

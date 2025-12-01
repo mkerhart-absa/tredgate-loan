@@ -12,7 +12,7 @@ test.describe('Loan Application Creation', () => {
     await appPage.setupCleanState();
   });
 
-  test('should load the application correctly', async ({ page }) => {
+  test('should load the application correctly', async () => {
     await test.step('Verify page title', async () => {
       await appPage.expectPageTitle();
     });
@@ -32,7 +32,7 @@ test.describe('Loan Application Creation', () => {
     });
   });
 
-  test('should create a new loan application successfully', async ({ page }) => {
+  test('should create a new loan application successfully', async () => {
     const loanData = TestData.approvedLoan;
 
     await test.step('Fill in loan application form', async () => {
@@ -85,7 +85,7 @@ test.describe('Loan Application Creation', () => {
     });
   });
 
-  test('should create multiple loan applications', async ({ page }) => {
+  test('should create multiple loan applications', async () => {
     await test.step('Create first loan', async () => {
       const loan1 = TestData.approvedLoan;
       await appPage.loanForm.createLoanApplication(
@@ -128,7 +128,7 @@ test.describe('Loan Application Creation', () => {
     });
   });
 
-  test('should calculate monthly payment correctly for zero interest rate', async ({ page }) => {
+  test('should calculate monthly payment correctly for zero interest rate', async () => {
     const loanData = TestData.zeroInterestLoan;
 
     await test.step('Create loan with 0% interest', async () => {
@@ -149,7 +149,7 @@ test.describe('Loan Application Creation', () => {
     });
   });
 
-  test('should handle boundary values correctly', async ({ page }) => {
+  test('should handle boundary values correctly', async () => {
     const loanData = TestData.boundaryLoan;
 
     await test.step('Create loan at approval boundary', async () => {

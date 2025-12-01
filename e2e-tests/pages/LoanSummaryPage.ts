@@ -1,6 +1,6 @@
 import { Page, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
-import { SELECTORS, TEXTS, TEST_MESSAGES } from '../texts/texts';
+import { SELECTORS, TEST_MESSAGES } from '../texts/texts';
 
 /**
  * Page Object for Loan Summary component
