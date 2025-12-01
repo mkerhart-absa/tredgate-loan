@@ -35,7 +35,6 @@ function formatDate(isoDate: string): string {
 }
 
 function handleDelete(id: string): void {
-  // eslint-disable-next-line no-undef
   if (confirm('Are you sure you want to delete this loan application? This action cannot be undone.')) {
     emit('delete', id)
   }
