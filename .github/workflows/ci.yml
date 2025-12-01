@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write
 
 jobs:
   build-and-test:
@@ -30,7 +31,47 @@ jobs:
         run: npm run lint
 
       - name: Run tests
+        id: test
         run: npm run test
+        continue-on-error: true
+
+      - name: Generate test summary
+        if: always()
+        run: |
+          if [ "${{ steps.test.outcome }}" == "success" ]; then
+            echo "## Test Results Summary :test_tube:" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Status: ✅ Tests Passed" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "All unit tests have been executed successfully." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "## Test Results Summary :test_tube:" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Status: ❌ Tests Failed" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Some tests failed. Please check the logs for details." >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Test Coverage" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Service Layer**: Tests covering loanService.ts" >> $GITHUB_STEP_SUMMARY
+          echo "- **LoanForm Component**: Form validation and submission tests" >> $GITHUB_STEP_SUMMARY
+          echo "- **LoanList Component**: Loan display and interaction tests" >> $GITHUB_STEP_SUMMARY
+          echo "- **LoanSummary Component**: Statistics calculation tests" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📊 View the detailed HTML report in the workflow artifacts." >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload HTML test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report-html
+          path: html/
+          retention-days: 30
+
+      - name: Fail if tests failed
+        if: steps.test.outcome == 'failure'
+        run: exit 1
 
       - name: Build
         run: npm run build

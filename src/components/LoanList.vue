@@ -73,6 +73,7 @@ function formatDate(isoDate: string): string {
               <button
                 v-if="loan.status === 'pending'"
                 class="action-btn success"
+                data-testid="approve-btn"
                 @click="emit('approve', loan.id)"
                 title="Approve"
               >
@@ -81,6 +82,7 @@ function formatDate(isoDate: string): string {
               <button
                 v-if="loan.status === 'pending'"
                 class="action-btn danger"
+                data-testid="reject-btn"
                 @click="emit('reject', loan.id)"
                 title="Reject"
               >
@@ -89,6 +91,7 @@ function formatDate(isoDate: string): string {
               <button
                 v-if="loan.status === 'pending'"
                 class="action-btn secondary"
+                data-testid="auto-decide-btn"
                 @click="emit('autoDecide', loan.id)"
                 title="Auto-decide"
               >
