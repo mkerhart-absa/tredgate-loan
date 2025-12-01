@@ -23,6 +23,7 @@ Tredgate Loan is a frontend-only demo application used for training on GitHub Co
 - **TypeScript** - Type-safe JavaScript
 - **Vite** - Fast build tool and dev server
 - **Vitest** - Unit testing framework
+- **Playwright** - End-to-end testing framework
 - **ESLint** - Code linting
 
 ## Getting Started
@@ -52,26 +53,47 @@ npm run build
 
 ### Testing
 
+#### Unit Tests
 ```bash
 npm run test
+```
+
+#### E2E Tests
+```bash
+npm run test:e2e
+```
+
+#### E2E Tests with UI
+```bash
+npm run test:e2e:ui
 ```
 
 For detailed test documentation, see [TESTING.md](TESTING.md).
 
 ### Test Coverage
 
-- **56 tests** covering all features
-- Service layer tests (19 tests)
-- Component tests (37 tests)
-  - LoanForm component
-  - LoanList component  
-  - LoanSummary component
+- **56 unit tests** covering all features
+  - Service layer tests (19 tests)
+  - Component tests (37 tests)
+    - LoanForm component
+    - LoanList component  
+    - LoanSummary component
+
+- **20 E2E tests** covering user workflows
+  - Form validation (7 tests)
+  - Loan creation (5 tests)
+  - Loan decisions (8 tests)
 
 ### HTML Test Reports
 
-After running tests, view the HTML report:
+After running unit tests, view the HTML report:
 ```bash
 npx vite preview --outDir html
+```
+
+After running E2E tests, view the Playwright report:
+```bash
+npx playwright show-report
 ```
 
 ### Coverage Report
