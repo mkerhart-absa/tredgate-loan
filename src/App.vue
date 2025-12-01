@@ -82,7 +82,7 @@ onMounted(() => {
 
 .main-content {
   display: grid;
-  grid-template-columns: 400px 1fr;
+  grid-template-columns: minmax(320px, 400px) 1fr;
   gap: 2rem;
   align-items: start;
 }
@@ -98,7 +98,7 @@ onMounted(() => {
   gap: 1.5rem;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
   .main-content {
     grid-template-columns: 1fr;
   }
