@@ -34,23 +34,23 @@ function formatCurrency(value: number): string {
 
 <template>
   <div class="loan-summary">
-    <div class="stat-card">
+    <div class="stat-card" data-testid="total-card">
       <div class="stat-value">{{ stats.total }}</div>
       <div class="stat-label">Total Applications</div>
     </div>
-    <div class="stat-card pending">
+    <div class="stat-card pending" data-testid="pending-card">
       <div class="stat-value">{{ stats.pending }}</div>
       <div class="stat-label">Pending</div>
     </div>
-    <div class="stat-card approved">
+    <div class="stat-card approved" data-testid="approved-card">
       <div class="stat-value">{{ stats.approved }}</div>
       <div class="stat-label">Approved</div>
     </div>
-    <div class="stat-card rejected">
+    <div class="stat-card rejected" data-testid="rejected-card">
       <div class="stat-value">{{ stats.rejected }}</div>
       <div class="stat-label">Rejected</div>
     </div>
-    <div class="stat-card amount">
+    <div class="stat-card amount" data-testid="amount-card">
       <div class="stat-value">{{ formatCurrency(stats.totalApprovedAmount) }}</div>
       <div class="stat-label">Total Approved</div>
     </div>

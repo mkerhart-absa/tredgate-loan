@@ -57,7 +57,7 @@ describe('LoanSummary', () => {
       props: { loans: mockLoans }
     })
     
-    const totalCard = wrapper.findAll('.stat-card')[0]!
+    const totalCard = wrapper.find('[data-testid="total-card"]')
     expect(totalCard.find('.stat-value').text()).toBe('4')
     expect(totalCard.find('.stat-label').text()).toBe('Total Applications')
   })
@@ -67,7 +67,7 @@ describe('LoanSummary', () => {
       props: { loans: mockLoans }
     })
     
-    const pendingCard = wrapper.findAll('.stat-card')[1]!
+    const pendingCard = wrapper.find('[data-testid="pending-card"]')
     expect(pendingCard.find('.stat-value').text()).toBe('1')
     expect(pendingCard.find('.stat-label').text()).toBe('Pending')
   })
@@ -77,7 +77,7 @@ describe('LoanSummary', () => {
       props: { loans: mockLoans }
     })
     
-    const approvedCard = wrapper.findAll('.stat-card')[2]!
+    const approvedCard = wrapper.find('[data-testid="approved-card"]')
     expect(approvedCard.find('.stat-value').text()).toBe('2')
     expect(approvedCard.find('.stat-label').text()).toBe('Approved')
   })
@@ -87,7 +87,7 @@ describe('LoanSummary', () => {
       props: { loans: mockLoans }
     })
     
-    const rejectedCard = wrapper.findAll('.stat-card')[3]!
+    const rejectedCard = wrapper.find('[data-testid="rejected-card"]')
     expect(rejectedCard.find('.stat-value').text()).toBe('1')
     expect(rejectedCard.find('.stat-label').text()).toBe('Rejected')
   })
@@ -97,7 +97,7 @@ describe('LoanSummary', () => {
       props: { loans: mockLoans }
     })
     
-    const amountCard = wrapper.findAll('.stat-card')[4]!
+    const amountCard = wrapper.find('[data-testid="amount-card"]')
     // approved loans: 100000 + 75000 = 175000
     expect(amountCard.find('.stat-value').text()).toBe('$175,000')
     expect(amountCard.find('.stat-label').text()).toBe('Total Approved')
@@ -121,11 +121,10 @@ describe('LoanSummary', () => {
       props: { loans: mockLoans }
     })
     
-    const cards = wrapper.findAll('.stat-card')
-    expect(cards[1]!.classes()).toContain('pending')
-    expect(cards[2]!.classes()).toContain('approved')
-    expect(cards[3]!.classes()).toContain('rejected')
-    expect(cards[4]!.classes()).toContain('amount')
+    expect(wrapper.find('[data-testid="pending-card"]').classes()).toContain('pending')
+    expect(wrapper.find('[data-testid="approved-card"]').classes()).toContain('approved')
+    expect(wrapper.find('[data-testid="rejected-card"]').classes()).toContain('rejected')
+    expect(wrapper.find('[data-testid="amount-card"]').classes()).toContain('amount')
   })
 
   it('formats currency without decimals', () => {
@@ -133,7 +132,7 @@ describe('LoanSummary', () => {
       props: { loans: mockLoans }
     })
     
-    const amountCard = wrapper.findAll('.stat-card')[4]!
+    const amountCard = wrapper.find('[data-testid="amount-card"]')
     const amountText = amountCard.find('.stat-value').text()
     // Should be formatted as $175,000 (no decimal places)
     expect(amountText).toBe('$175,000')
@@ -146,17 +145,17 @@ describe('LoanSummary', () => {
     })
     
     // Initial state: 1 pending loan
-    expect(wrapper.findAll('.stat-card')[0]!.find('.stat-value').text()).toBe('1')
-    expect(wrapper.findAll('.stat-card')[1]!.find('.stat-value').text()).toBe('1')
+    expect(wrapper.find('[data-testid="total-card"]').find('.stat-value').text()).toBe('1')
+    expect(wrapper.find('[data-testid="pending-card"]').find('.stat-value').text()).toBe('1')
     
     // Update props
     await wrapper.setProps({ loans: mockLoans })
     
     // Updated state: 4 total, 1 pending, 2 approved, 1 rejected
-    expect(wrapper.findAll('.stat-card')[0]!.find('.stat-value').text()).toBe('4')
-    expect(wrapper.findAll('.stat-card')[1]!.find('.stat-value').text()).toBe('1')
-    expect(wrapper.findAll('.stat-card')[2]!.find('.stat-value').text()).toBe('2')
-    expect(wrapper.findAll('.stat-card')[3]!.find('.stat-value').text()).toBe('1')
+    expect(wrapper.find('[data-testid="total-card"]').find('.stat-value').text()).toBe('4')
+    expect(wrapper.find('[data-testid="pending-card"]').find('.stat-value').text()).toBe('1')
+    expect(wrapper.find('[data-testid="approved-card"]').find('.stat-value').text()).toBe('2')
+    expect(wrapper.find('[data-testid="rejected-card"]').find('.stat-value').text()).toBe('1')
   })
 
   it('calculates total approved amount correctly with multiple approved loans', () => {
@@ -194,7 +193,7 @@ describe('LoanSummary', () => {
       props: { loans: approvedLoans }
     })
     
-    const amountCard = wrapper.findAll('.stat-card')[4]!
+    const amountCard = wrapper.find('[data-testid="amount-card"]')
     // 25000 + 50000 + 25000 = 100000
     expect(amountCard.find('.stat-value').text()).toBe('$100,000')
   })
@@ -234,7 +233,7 @@ describe('LoanSummary', () => {
       props: { loans: mixedLoans }
     })
     
-    const amountCard = wrapper.findAll('.stat-card')[4]!
+    const amountCard = wrapper.find('[data-testid="amount-card"]')
     // Only approved loan: 50000
     expect(amountCard.find('.stat-value').text()).toBe('$50,000')
   })

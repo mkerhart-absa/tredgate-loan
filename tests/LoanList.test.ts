@@ -66,6 +66,7 @@ describe('LoanList', () => {
       props: { loans: [mockLoans[0]!] }
     })
     
+    expect(wrapper.findAll('tbody tr')).toHaveLength(1)
     const row = wrapper.find('tbody tr')
     expect(row.text()).toContain('John Doe')
     expect(row.text()).toContain('$50,000.00')
@@ -143,7 +144,7 @@ describe('LoanList', () => {
       props: { loans: [mockLoans[0]!] }
     })
     
-    const approveButton = wrapper.findAll('.action-btn')[0]!
+    const approveButton = wrapper.find('[data-testid="approve-btn"]')
     await approveButton.trigger('click')
     
     expect(wrapper.emitted('approve')).toBeTruthy()
@@ -155,7 +156,7 @@ describe('LoanList', () => {
       props: { loans: [mockLoans[0]!] }
     })
     
-    const rejectButton = wrapper.findAll('.action-btn')[1]!
+    const rejectButton = wrapper.find('[data-testid="reject-btn"]')
     await rejectButton.trigger('click')
     
     expect(wrapper.emitted('reject')).toBeTruthy()
@@ -167,7 +168,7 @@ describe('LoanList', () => {
       props: { loans: [mockLoans[0]!] }
     })
     
-    const autoDecideButton = wrapper.findAll('.action-btn')[2]!
+    const autoDecideButton = wrapper.find('[data-testid="auto-decide-btn"]')
     await autoDecideButton.trigger('click')
     
     expect(wrapper.emitted('autoDecide')).toBeTruthy()
