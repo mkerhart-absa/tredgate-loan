@@ -11,6 +11,11 @@ export default tseslint.config(
     languageOptions: {
       parserOptions: {
         parser: tseslint.parser
+      },
+      globals: {
+        confirm: 'readonly',
+        alert: 'readonly',
+        prompt: 'readonly'
       }
     }
   },

@@ -10,6 +10,7 @@ const emit = defineEmits<{
   approve: [id: string]
   reject: [id: string]
   autoDecide: [id: string]
+  delete: [id: string]
 }>()
 
 function formatCurrency(value: number): string {
@@ -31,6 +32,12 @@ function formatDate(isoDate: string): string {
     month: 'short',
     day: 'numeric'
   })
+}
+
+function handleDelete(id: string): void {
+  if (confirm('Are you sure you want to delete this loan application? This action cannot be undone.')) {
+    emit('delete', id)
+  }
 }
 </script>
 
@@ -97,6 +104,13 @@ function formatDate(isoDate: string): string {
               >
                 ⚡
               </button>
+              <button
+                class="action-btn delete"
+                @click="handleDelete(loan.id)"
+                title="Delete"
+              >
+                🗑️
+              </button>
               <span v-if="loan.status !== 'pending'" class="no-actions">—</span>
             </td>
           </tr>
@@ -135,6 +149,17 @@ function formatDate(isoDate: string): string {
 
 .action-btn:last-child {
   margin-right: 0;
+}
+
+.action-btn.delete {
+  background-color: #dc3545;
+  color: white;
+  border: 1px solid #dc3545;
+}
+
+.action-btn.delete:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
 }
 
 .no-actions {
